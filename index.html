@@ -5,11 +5,55 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Form Generato</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <script src="../js/formGenerator.js"></script>
+    <title>Form Generator</title>
 </head>
 
 <body>
-    <h1>Form Generato</h1>
+
+    <div class="outerDiv">
+        <div class="mainDiv">
+            <h1>Form Generator</h1>
+            <hr>
+            <div id="tableMenu" class="formTableListDiv ">
+                <table>
+                    <tr class="tableHead">
+                        <th>Forms</th>
+                        <th>Actions</th>
+                    </tr>
+                    <tr>
+                        <td>Form 1</td>
+                        <td> <button type="button" class="createButton">Open</button><button type="button" class="createButton">Edit</button><button type="button" class="createButton">Delete</button></td>
+                    </tr>
+                    <tr>
+                        <td>Form 2</td>
+                        <td> <button type="button" class="createButton">Open</button><button type="button" class="createButton">Edit</button><button type="button" class="createButton">Delete</button></td>
+                    </tr>
+                    <tr>
+                        <td>Form 3</td>
+                        <td> <button type="button" class="createButton">Open</button><button type="button" class="createButton">Edit</button><button type="button" class="createButton">Delete</button></td>
+                    </tr>
+
+                </table>
+            </div>
+            <div class="newFormDiv invisible" id="divNewForm">
+                <h3>New Form</h3>
+
+            </div>
+            <div class="buttonsDiv">
+                <div class="invisible" id="buttonsNewForm">
+                    <button type="button" class="cancelButton" id="cancelButton" onclick="cancel()">Cancel</button>
+                    <button type="button" class="saveNewButton" id="saveNewButton" onclick="saveNewForm()">Save New Form</button>
+
+                </div>
+                <div id="buttonsMenuForm">
+                    <button type="button" class="createButton" id="newFormButton" onclick="newForm()">New form</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
 </body>
 
