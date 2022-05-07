@@ -22,3 +22,7 @@ tr:nth-child(even) {
 .invisible {
     display: none;
 }
+
+.buttonsNewForm {
+    margin-top: 2em;
+}
