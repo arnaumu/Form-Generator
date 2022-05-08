@@ -452,6 +452,22 @@ function setUniqueSelectionList(divQuestionContent) {
 }
 
 function setMultipleSelectionList(divQuestionContent) {
+    checkIfDivHasContent(divQuestionContent);
+    var array = ["A", "B", "C", "D"];
+
+    var selectList2 = document.createElement("select");
+    selectList2.setAttribute("multiple", "true");
+    //Create and append the options
+    for (var i = 0; i < array.length; i++) {
+        var option = document.createElement("option");
+        option.setAttribute("value", array[i]);
+        option.text = array[i];
+        selectList2.appendChild(option);
+    }
+    divQuestionContent.appendChild(selectList2);
+    idMulti++;
+
+
 
 }
 
