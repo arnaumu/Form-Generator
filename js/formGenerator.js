@@ -25,46 +25,50 @@ function newForm() {
 }
 
 function setNewFormElements() {
-    setTitle();
-    setHtmlQuestion();
+    var divFormContent = document.createElement("div");
+    divFormContent.setAttribute("id", "form" + formsNumber);
+
+    setTitle(divFormContent);
+    setHtmlQuestion(divFormContent);
     //setHtmlNewQuestionButton();
 
     //Select on change
+
     document.getElementById("questionType" + questionNumber).onchange = function(e) {
         // console.log(this[this.selectedIndex].text);
         switch (this[this.selectedIndex].text) {
             case "Text":
-                setText();
+                setText(divFormContent);
                 break;
             case "Password":
-                setPassword();
+                setPassword(divFormContent);
                 break;
             case "Date":
-                setDate();
+                setDate(divFormContent);
                 break;
             case "Range Number":
-                setRange();
+                setRange(divFormContent);
                 break;
             case "File":
-                setFile();
+                setFile(divFormContent);
                 break;
             case "Mail":
-                setMail();
+                setMail(divFormContent);
                 break;
             case "Radio Button":
-                setRadioButton();
+                setRadioButton(divFormContent);
             case "Check Boxes":
-                setCheckBox();
+                setCheckBox(divFormContent);
             case "Unique selection list":
-                setUniqueSelectionList();
+                setUniqueSelectionList(divFormContent);
             case "Multiple selection list":
-                setMultipleSelectionList();
+                setMultipleSelectionList(divFormContent);
         }
     };
 
 }
 
-function setTitle() {
+function setTitle(divFormContent) {
     var divNewForm = document.getElementById("divNewForm");
 
     if (document.getElementById("titleForm" + formsNumber) || formsNumber == 0) {
@@ -88,40 +92,47 @@ function setTitle() {
         inputFormTitle.type = "text";
         inputFormTitle.id = "titleForm" + formsNumber;
 
-        divNewForm.appendChild(inputFormTitle);
+
+        divFormContent.appendChild(inputFormTitle);
+        divNewForm.appendChild(divFormContent);
     }
 }
 
-function setHtmlQuestion() {
+function setHtmlQuestion(divFormContent) {
     questionNumber++
 
     //Question number
     var h3QuestionNumber = document.createElement("h3");
     h3QuestionNumber.innerHTML = "Question number " + questionNumber;
 
-    divNewForm.appendChild(h3QuestionNumber);
+    divFormContent.appendChild(h3QuestionNumber);
+    divNewForm.appendChild(divFormContent);
 
     //Label for question title
     var labelForFormQuestionTitle = document.createElement("Label");
     labelForFormQuestionTitle.setAttribute("for", "questionTitle" + questionNumber);
     labelForFormQuestionTitle.innerHTML = "Question title:";
 
-    divNewForm.appendChild(labelForFormQuestionTitle);
+    divFormContent.appendChild(labelForFormQuestionTitle);
+    divNewForm.appendChild(divFormContent);
 
     //Input question title
     var inputFormTitle = document.createElement("input");
     inputFormTitle.type = "text";
     inputFormTitle.placeholder = "Type your question..."
+    inputFormTitle.size = 35;
     inputFormTitle.id = "questionTitle" + questionNumber;
 
-    divNewForm.appendChild(inputFormTitle);
+    divFormContent.appendChild(inputFormTitle);
+    divNewForm.appendChild(divFormContent);
 
     //Label for question type
     var labelForFormQuestionType = document.createElement("Label");
     labelForFormQuestionType.setAttribute("for", "questionType" + questionNumber);
     labelForFormQuestionType.innerHTML = "Question type:";
 
-    divNewForm.appendChild(labelForFormQuestionType);
+    divFormContent.appendChild(labelForFormQuestionType);
+    divNewForm.appendChild(divFormContent);
 
     //Select question type
     var selectQuestionType = document.createElement("select");
@@ -144,14 +155,20 @@ function setHtmlQuestion() {
     selectQuestionType.appendChild(optGroup2)
 
     selectQuestionType.selectedIndex = -1;
-    divNewForm.appendChild(selectQuestionType);
+
+    divFormContent.appendChild(selectQuestionType)
+    divNewForm.appendChild(divFormContent);
 
     var linebreak = document.createElement("br");
-    divNewForm.appendChild(linebreak);
+
+    divFormContent.appendChild(linebreak);
+    divNewForm.appendChild(divFormContent);
 
     var divQuestionContent = document.createElement("div");
     divQuestionContent.setAttribute("id", 'question' + questionNumber + '-form' + formsNumber)
-    divNewForm.appendChild(divQuestionContent);
+
+    divFormContent.appendChild(divQuestionContent);
+    divNewForm.appendChild(divFormContent);
 }
 
 
@@ -189,9 +206,9 @@ function cancel() {
     document.getElementById("divNewFormButton").classList.toggle("invisible")
 
     var div = document.getElementById("divNewForm")
-    while (div.firstChild) {
-        div.removeChild(div.firstChild);
-    }
+        // while (div.firstChild) {
+        //     div.removeChild(div.firstChild);
+        // }
 }
 
 function checkIfTitleAlreadyExists() {
@@ -222,7 +239,7 @@ function checkDivQuestionContent(div) {
     }
 }
 
-function setText() {
+function setText(divFormContent) {
     var div = document.getElementById('question' + questionNumber + '-form' + formsNumber);
 
     checkDivQuestionContent(div);
@@ -235,11 +252,12 @@ function setText() {
     inputTextArea.cols = "50";
 
     div.appendChild(inputTextArea);
-    divNewForm.appendChild(div);
+    divFormContent.appendChild(div);
+    divNewForm.appendChild(divFormContent);
     idTextarea++;
 }
 
-function setPassword() {
+function setPassword(divFormContent) {
     var div = document.getElementById('question' + questionNumber + '-form' + formsNumber);
 
     checkDivQuestionContent(div);
@@ -249,11 +267,12 @@ function setPassword() {
     inputPassword.id = "password" + formsNumber + "Id" + idPassword;
 
     div.appendChild(inputPassword);
-    divNewForm.appendChild(div);
+    divFormContent.appendChild(div);
+    divNewForm.appendChild(divFormContent);
     idPassword++;
 }
 
-function setDate() {
+function setDate(divFormContent) {
     var div = document.getElementById('question' + questionNumber + '-form' + formsNumber);
 
     checkDivQuestionContent(div);
@@ -263,11 +282,12 @@ function setDate() {
     inputDate.id = "date" + formsNumber + "Id" + idDate;
 
     div.appendChild(inputDate);
-    divNewForm.appendChild(div);
+    divFormContent.appendChild(div);
+    divNewForm.appendChild(divFormContent);
     idDate++;
 }
 
-function setRange() {
+function setRange(divFormContent) {
     var div = document.getElementById('question' + questionNumber + '-form' + formsNumber);
 
     checkDivQuestionContent(div);
@@ -277,14 +297,19 @@ function setRange() {
     inputRange.addEventListener('input', function() { this.nextElementSibling.value = this.value; }, true)
     inputRange.id = "range" + formsNumber + "Id" + idRange;
 
-    div.appendChild(inputRange);
+    //div.appendChild(inputRange);
     var numberSelected = document.createElement("output");
-    div.append(numberSelected);
-    divNewForm.appendChild(div);
+
+    //Cuando se pone el output no desaparece al canviar de selección. !!!!!!!!!!!!
+    inputRange.innerHTML += numberSelected;
+    div.appendChild(inputRange);
+    divFormContent.appendChild(div);
+    divNewForm.appendChild(divFormContent);
+
     idRange++;
 }
 
-function setFile() {
+function setFile(divFormContent) {
     var div = document.getElementById('question' + questionNumber + '-form' + formsNumber);
 
     checkDivQuestionContent(div);
@@ -294,11 +319,12 @@ function setFile() {
     inputFile.id = "file" + formsNumber + "Id" + idDate;
 
     div.appendChild(inputFile);
-    divNewForm.appendChild(div);
+    divFormContent.appendChild(div);
+    divNewForm.appendChild(divFormContent);
     idFile++;
 }
 
-function setMail() {
+function setMail(divFormContent) {
     var div = document.getElementById('question' + questionNumber + '-form' + formsNumber);
 
     checkDivQuestionContent(div);
@@ -308,11 +334,12 @@ function setMail() {
     inputMail.id = "email" + formsNumber + "Id" + idEmail;
 
     div.appendChild(inputMail);
-    divNewForm.appendChild(div);
+    divFormContent.appendChild(div);
+    divNewForm.appendChild(divFormContent);
     idEmail++;
 }
 
-function setRadioButton() {
+function setRadioButton(divFormContent) {
     var div = document.getElementById('question' + questionNumber + '-form' + formsNumber);
 
     checkDivQuestionContent(div);
@@ -322,11 +349,12 @@ function setRadioButton() {
     inputRadio.id = "radio" + formsNumber + "Id" + idRadio;
 
     div.appendChild(inputRadio);
-    divNewForm.appendChild(div);
+    divFormContent.appendChild(div);
+    divNewForm.appendChild(divFormContent);
     idRadio++;
 }
 
-function setCheckBox() {
+function setCheckBox(divFormContent) {
     var div = document.getElementById('question' + questionNumber + '-form' + formsNumber);
 
     checkDivQuestionContent(div);
@@ -336,15 +364,16 @@ function setCheckBox() {
     inputCheckBox.id = "checkbox" + formsNumber + "Id" + idCheck;
 
     div.appendChild(inputCheckBox);
-    divNewForm.appendChild(div);
+    divFormContent.appendChild(div);
+    divNewForm.appendChild(divFormContent);
     idCheck++;
 }
 
-function setUniqueSelectionList() {
+function setUniqueSelectionList(divFormContent) {
 
 }
 
-function setMultipleSelectionList() {
+function setMultipleSelectionList(divFormContent) {
 
 }
 
