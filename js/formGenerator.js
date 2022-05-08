@@ -10,6 +10,8 @@ var idEmail = 1;
 
 var idRadio = 1;
 var idCheck = 1;
+var idUnique = 1;
+var idMulti = 1;
 
 const inputFields = ["Text", "Password", "Date", "Range Number", "File", "Mail"];
 const multipleChoice = ["Radio Button", "Check Boxes", "Unique selection list", "Multiple selection list"];
@@ -162,14 +164,14 @@ function setQuestion(divFormContent, divQuestionNumber) {
     for (var i = 0; i < inputFields.length; i++) {
         optGroup.appendChild(new Option(inputFields[i]));
     }
-    selectQuestionType.appendChild(optGroup)
+    selectQuestionType.appendChild(optGroup);
 
     var optGroup2 = document.createElement('optgroup')
     optGroup2.setAttribute('label', 'Multuiple choice')
-    for (var i = 0; i < multipleChoice.length; i++) {
-        optGroup2.appendChild(new Option(multipleChoice[i]));
+    for (var x = 0; x < multipleChoice.length; x++) {
+        optGroup2.appendChild(new Option(multipleChoice[x]));
     }
-    selectQuestionType.appendChild(optGroup2)
+    selectQuestionType.appendChild(optGroup2); // quitar optgroup
 
     selectQuestionType.selectedIndex = -1;
 
@@ -417,9 +419,55 @@ function setCheckBox(divQuestionContent) {
 
 function setUniqueSelectionList(divQuestionContent) {
 
+    checkIfDivHasContent(divQuestionContent);
+
+    var array = ["A", "B", "C", "D"];
+
+    var selectList = document.createElement("select");
+    // var displayText = selectList.options[selectList.selectedIndex].text;
+    // document.getElementById("")
+
+    selectList.setAttribute("id", "mySelect");
+
+    //Create and append the options
+    for (var i = 0; i < array.length; i++) {
+        var option = document.createElement("option");
+        option.setAttribute("value", array[i]);
+        option.text = array[i];
+        selectList.appendChild(option);
+    }
+    divQuestionContent.appendChild(selectList);
+    idUnique++;
+
+
+    // var uniqueSelect = document.createElement("select");
+    // uniqueSelect.type = "questionType";
+    // uniqueSelect.id = "questionType" + formsNumber;
+
+
+    // divQuestionContent.appendChild(uniqueSelect);
+
+    // so that it allows form submission again;
+
 }
 
 function setMultipleSelectionList(divQuestionContent) {
+    checkIfDivHasContent(divQuestionContent);
+    var array = ["A", "B", "C", "D"];
+
+    var selectList2 = document.createElement("select");
+    selectList2.setAttribute("multiple", "true");
+    //Create and append the options
+    for (var i = 0; i < array.length; i++) {
+        var option = document.createElement("option");
+        option.setAttribute("value", array[i]);
+        option.text = array[i];
+        selectList2.appendChild(option);
+    }
+    divQuestionContent.appendChild(selectList2);
+    idMulti++;
+
+
 
 }
 
