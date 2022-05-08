@@ -8,9 +8,11 @@ var idRange = 1;
 var idFile = 1;
 var idEmail = 1;
 
+var idRadio = 1;
+var idCheck = 1;
+
 const inputFields = ["Text", "Password", "Date", "Range Number", "File", "Mail"];
 const multipleChoice = ["Radio Button", "Check Boxes", "Unique selection list", "Multiple selection list"];
-//var tbodyRef = document.getElementById('myTable').getElementsByTagName('tbody')[0];
 
 function newForm() {
     document.getElementById("buttonsMenuForm").classList.toggle("invisible");
@@ -88,14 +90,6 @@ function setTitle() {
 
         divNewForm.appendChild(inputFormTitle);
     }
-    // var labelInputTitle = document.createElement("label");
-    // labelInputTitle.setAttribute("for", "title")
-    // labelInputTitle.innerHTML = "Form title (*)";
-
-    // var inputTitle = `<h3>New Form<h3>
-    // <label for="title">Form title (*)</label> <br>
-    // <input type="text" name="title" value="" id="title" />`
-    // divNewForm.innerHTML += inputTitle;
 }
 
 function setHtmlQuestion() {
@@ -138,8 +132,6 @@ function setHtmlQuestion() {
     var optGroup = document.createElement('optgroup')
     optGroup.setAttribute('label', 'Input text')
     for (var i = 0; i < inputFields.length; i++) {
-        // this will in this case auto-select and default-select the third option
-        //optGroup.appendChild(new Option("Value: " + i, i, i == 3, i == 3))
         optGroup.appendChild(new Option(inputFields[i]));
     }
     selectQuestionType.appendChild(optGroup)
@@ -147,7 +139,6 @@ function setHtmlQuestion() {
     var optGroup2 = document.createElement('optgroup')
     optGroup2.setAttribute('label', 'Multuiple choice')
     for (var i = 0; i < multipleChoice.length; i++) {
-        // this will in this case auto-select and default-select the third option
         optGroup2.appendChild(new Option(multipleChoice[i]));
     }
     selectQuestionType.appendChild(optGroup2)
@@ -165,7 +156,6 @@ function setHtmlQuestion() {
 
 
 function setHtmlNewQuestionButton() {
-
     // var button = document.createElement('button');
     // button.innerHTML = 'click me';
     // //button.onclick = setHtmlQuestion()
@@ -191,7 +181,6 @@ function addQuestion() {
     console.log(" Question added SAVED!!!!!!!!!!")
 }
 
-
 function cancel() {
     document.getElementById("buttonsNewForm").classList.toggle("invisible");
     document.getElementById("buttonsMenuForm").classList.toggle("invisible");
@@ -206,16 +195,12 @@ function cancel() {
 }
 
 function checkIfTitleAlreadyExists() {
-
     var titleFormId = document.getElementById('tableOfForms');
-
-    console.log("LA IDE es " + titleFormId.id);
 
     for (var i = 0; i < titleFormId.children[0].childElementCount; i++) {
         var tableRow = titleFormId.children[0].children[i];
         for (var j = 0; j < tableRow.childElementCount; j++) {
             var tableColumn = tableRow.children[j];
-            //console.log('Cell [' + i + ',' + j + '] value: ' + tableColumn.innerText);
             if (document.getElementById('titleForm' + formsNumber).value == tableColumn.innerText) {
                 return false;
             }
@@ -229,7 +214,6 @@ function isEmptyOrSpaces(title) {
 }
 
 function checkDivQuestionContent(div) {
-
     if (div.innerHTML.length != 0) {
         console.log("Hay content");
         div.removeChild(div.lastChild);
@@ -239,7 +223,6 @@ function checkDivQuestionContent(div) {
 }
 
 function setText() {
-
     var div = document.getElementById('question' + questionNumber + '-form' + formsNumber);
 
     checkDivQuestionContent(div);
@@ -329,6 +312,42 @@ function setMail() {
     idEmail++;
 }
 
+function setRadioButton() {
+    var div = document.getElementById('question' + questionNumber + '-form' + formsNumber);
+
+    checkDivQuestionContent(div);
+
+    var inputRadio = document.createElement("input");
+    inputRadio.type = "radio";
+    inputRadio.id = "radio" + formsNumber + "Id" + idRadio;
+
+    div.appendChild(inputRadio);
+    divNewForm.appendChild(div);
+    idRadio++;
+}
+
+function setCheckBox() {
+    var div = document.getElementById('question' + questionNumber + '-form' + formsNumber);
+
+    checkDivQuestionContent(div);
+
+    var inputCheckBox = document.createElement("input");
+    inputCheckBox.type = "checkbox";
+    inputCheckBox.id = "checkbox" + formsNumber + "Id" + idCheck;
+
+    div.appendChild(inputCheckBox);
+    divNewForm.appendChild(div);
+    idCheck++;
+}
+
+function setUniqueSelectionList() {
+
+}
+
+function setMultipleSelectionList() {
+
+}
+
 function saveNewForm() {
     //Insertar titulo
     var title = document.getElementById('titleForm' + formsNumber).value;
@@ -336,10 +355,9 @@ function saveNewForm() {
     if (!isEmptyOrSpaces(title)) {
         if (checkIfTitleAlreadyExists()) {
             console.log("Titulo guardadao");
-            // Insert a row at the end of table
+
             let newRow = tableOfForms.insertRow(-1);
 
-            // Insert a cell at the end of the row
             var cellTitle = newRow.insertCell(0);
             var cellButtons = newRow.insertCell(1);
 
