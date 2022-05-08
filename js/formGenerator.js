@@ -1,4 +1,4 @@
-var questionNumber = 0;
+var questionNumber = 1;
 var formsNumber = 0;
 
 var idTextarea = 1;
@@ -15,6 +15,9 @@ const inputFields = ["Text", "Password", "Date", "Range Number", "File", "Mail"]
 const multipleChoice = ["Radio Button", "Check Boxes", "Unique selection list", "Multiple selection list"];
 
 function newForm() {
+
+    checkIfDivHasContent(document.getElementById("divNewForm"))
+
     document.getElementById("buttonsMenuForm").classList.toggle("invisible");
     document.getElementById("tableMenu").classList.toggle("invisible");
     document.getElementById("buttonsNewForm").classList.toggle("invisible");
@@ -25,35 +28,32 @@ function newForm() {
 }
 
 function setNewFormElements() {
+    //Dic form number
     var divFormContent = document.createElement("div");
     divFormContent.setAttribute("id", "form" + formsNumber);
 
+    //Set title
     setTitle(divFormContent);
 
-    questionNumber++
-
+    //Div question number
     var divQuestionNumber = document.createElement("div");
     divQuestionNumber.setAttribute("id", "questionNum" + questionNumber);
 
-    setHtmlQuestion(divFormContent, divQuestionNumber);
-    //setHtmlNewQuestionButton();
+    //Set Question
+    setQuestion(divFormContent, divQuestionNumber);
 
-    //Select on change
-    // console.log("Number question " + questionNumber + " Form number " + formsNumber);
-    // console.log(questionNumber);
-    // console.log("Inseert hjolsa");
-
+    //Div question content
     var divQuestionContent = document.createElement("div");
     divQuestionContent.setAttribute("id", "questionContent" + questionNumber);
-
     divQuestionNumber.appendChild(divQuestionContent);
 
+    //Set add question button
+    setButtonAddQuestion()
 
+    //Select on change
     document.getElementById("questionType" + questionNumber).onchange = function(e) {
         switch (this[this.selectedIndex].text) {
             case "Text":
-                console.log("Entrado al text");
-                // document.getElementById("id", "questionNum" + questionNumber).innerHTM
                 setText(divQuestionContent);
                 break;
             case "Password":
@@ -81,14 +81,13 @@ function setNewFormElements() {
                 setMultipleSelectionList(divQuestionContent);
         }
     };
-
 }
 
 function setTitle(divFormContent) {
     var divNewForm = document.getElementById("divNewForm");
 
     if (document.getElementById("titleForm" + formsNumber) || formsNumber == 0) {
-        formsNumber++;
+        // formsNumber++;
 
         //Title
         var h2Title = document.createElement("h2");
@@ -113,7 +112,7 @@ function setTitle(divFormContent) {
     }
 }
 
-function setHtmlQuestion(divFormContent, divQuestionNumber) {
+function setQuestion(divFormContent, divQuestionNumber) {
 
     //Question number
     var h3QuestionNumber = document.createElement("h3");
@@ -183,31 +182,24 @@ function setHtmlQuestion(divFormContent, divQuestionNumber) {
     divQuestionNumber.appendChild(linebreak);
     divFormContent.appendChild(divQuestionNumber);
     divNewForm.appendChild(divFormContent);
-
-    // var divQuestionContent = document.createElement("div");
-    // divQuestionContent.setAttribute("id", 'question' + questionNumber + '-form' + formsNumber)
-
-    // divQuestionNumber.appendChild(divQuestionContent);
-    // divFormContent.appendChild(divQuestionNumber);
-    // divNewForm.appendChild(divFormContent);
 }
 
 
-function setHtmlNewQuestionButton() {
-    // var button = document.createElement('button');
-    // button.innerHTML = 'click me';
-    // //button.onclick = setHtmlQuestion()
+// function setHtmlNewQuestionButton() {
+//     // var button = document.createElement('button');
+//     // button.innerHTML = 'click me';
+//     // //button.onclick = setQuestion()
 
 
-    // document.getElementById("divNewFormButton").innerHTML = button;
+//     // document.getElementById("divNewFormButton").innerHTML = button;
 
-    let btn = document.createElement("button");
-    btn.innerHTML = "Add question";
-    btn.onclick = function() {
-        setHtmlQuestion();
-    };
-    document.getElementById("divNewFormButton").appendChild(btn);
-}
+//     let btn = document.createElement("button");
+//     btn.innerHTML = "Add question";
+//     btn.onclick = function() {
+//         setQuestion();
+//     };
+//     document.getElementById("divNewFormButton").appendChild(btn);
+// }
 
 /**
  * <form action="javascript:void(0);" onsubmit="addQuestion()">
@@ -215,8 +207,65 @@ function setHtmlNewQuestionButton() {
  */
 
 
+function setButtonAddQuestion() {
+    var div = document.getElementById("divNewFormButton");
+
+
+    var btn = document.createElement("button");
+    btn.innerHTML = "Add another question";
+    btn.onclick = function() {
+        addQuestion();
+    };
+    var hr = document.createElement("hr");
+
+    div.appendChild(hr);
+    div.appendChild(btn);
+}
+
 function addQuestion() {
-    console.log(" Question added SAVED!!!!!!!!!!")
+    questionNumber++;
+
+    var divFormContent = document.getElementById("form" + formsNumber);
+    var divQuestionNumber = document.createElement("div");
+    divQuestionNumber.setAttribute("id", "questionNum" + questionNumber);
+
+    setQuestion(divFormContent, divQuestionNumber);
+
+    //Div question content
+    var divQuestionContent = document.createElement("div");
+    divQuestionContent.setAttribute("id", "questionContent" + questionNumber);
+    divQuestionNumber.appendChild(divQuestionContent);
+
+    document.getElementById("questionType" + questionNumber).onchange = function(e) {
+        switch (this[this.selectedIndex].text) {
+            case "Text":
+                setText(divQuestionContent);
+                break;
+            case "Password":
+                setPassword(divQuestionContent);
+                break;
+            case "Date":
+                setDate(divQuestionContent);
+                break;
+            case "Range Number":
+                setRange(divQuestionContent);
+                break;
+            case "File":
+                setFile(divQuestionContent);
+                break;
+            case "Mail":
+                setMail(divQuestionContent);
+                break;
+            case "Radio Button":
+                setRadioButton(divQuestionContent);
+            case "Check Boxes":
+                setCheckBox(divQuestionContent);
+            case "Unique selection list":
+                setUniqueSelectionList(divQuestionContent);
+            case "Multiple selection list":
+                setMultipleSelectionList(divQuestionContent);
+        }
+    };
 }
 
 function cancel() {
@@ -226,10 +275,12 @@ function cancel() {
     document.getElementById("divNewForm").classList.toggle("invisible")
     document.getElementById("divNewFormButton").classList.toggle("invisible")
 
-    var div = document.getElementById("divNewForm")
-        // while (div.firstChild) {
-        //     div.removeChild(div.firstChild);
-        // }
+    var div = document.getElementById("form" + formsNumber)
+
+    console.log(div);
+    while (div.firstChild) {
+        div.removeChild(div.firstChild);
+    }
 }
 
 function checkIfTitleAlreadyExists() {
@@ -251,29 +302,23 @@ function isEmptyOrSpaces(title) {
     return title === null || title.match(/^ *$/) !== null || /^\s/.test(title);
 }
 
-function checkDivQuestionContent(div) {
-    console.log("Checking if it has children")
+function checkIfDivHasContent(div) {
     if (div.firstChild) {
-        console.log("Hay content");
         while (div.firstChild) {
             div.firstChild.remove()
         }
-
-        //div.removeChild(div.lastChild);
-    } else {
-        console.log("No hay content");
-    }
+    } else {}
 }
 
 function setText(divQuestionContent) {
 
-    checkDivQuestionContent(divQuestionContent);
+    checkIfDivHasContent(divQuestionContent);
 
     var inputTextArea = document.createElement("textarea");
     inputTextArea.type = "text";
     inputTextArea.placeholder = "Type your answer..."
     inputTextArea.id = "textarea" + formsNumber + "Id" + idTextarea;
-    inputTextArea.rows = "10";
+    inputTextArea.rows = "5";
     inputTextArea.cols = "50";
 
     divQuestionContent.appendChild(inputTextArea);
@@ -282,7 +327,7 @@ function setText(divQuestionContent) {
 
 function setPassword(divQuestionContent) {
 
-    checkDivQuestionContent(divQuestionContent);
+    checkIfDivHasContent(divQuestionContent);
 
     var inputPassword = document.createElement("input");
     inputPassword.type = "password";
@@ -295,7 +340,7 @@ function setPassword(divQuestionContent) {
 
 function setDate(divQuestionContent) {
 
-    checkDivQuestionContent(divQuestionContent);
+    checkIfDivHasContent(divQuestionContent);
 
     var inputDate = document.createElement("input");
     inputDate.type = "date";
@@ -307,7 +352,7 @@ function setDate(divQuestionContent) {
 
 function setRange(divQuestionContent) {
 
-    checkDivQuestionContent(divQuestionContent);
+    checkIfDivHasContent(divQuestionContent);
 
     var inputRange = document.createElement("input");
     inputRange.type = "range";
@@ -323,7 +368,7 @@ function setRange(divQuestionContent) {
 
 function setFile(divQuestionContent) {
 
-    checkDivQuestionContent(divQuestionContent);
+    checkIfDivHasContent(divQuestionContent);
 
     var inputFile = document.createElement("input");
     inputFile.type = "file";
@@ -335,7 +380,7 @@ function setFile(divQuestionContent) {
 
 function setMail(divQuestionContent) {
 
-    checkDivQuestionContent(divQuestionContent);
+    checkIfDivHasContent(divQuestionContent);
 
     var inputMail = document.createElement("input");
     inputMail.type = "email";
@@ -348,7 +393,7 @@ function setMail(divQuestionContent) {
 
 function setRadioButton(divQuestionContent) {
 
-    checkDivQuestionContent(divQuestionContent);
+    checkIfDivHasContent(divQuestionContent);
 
     var inputRadio = document.createElement("input");
     inputRadio.type = "radio";
@@ -360,7 +405,7 @@ function setRadioButton(divQuestionContent) {
 
 function setCheckBox(divQuestionContent) {
 
-    checkDivQuestionContent(divQuestionContent);
+    checkIfDivHasContent(divQuestionContent);
 
     var inputCheckBox = document.createElement("input");
     inputCheckBox.type = "checkbox";
