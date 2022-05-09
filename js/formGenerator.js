@@ -77,12 +77,16 @@ function setNewFormElements() {
                 break;
             case "Radio Button":
                 setRadioButton(divQuestionContent);
+                break;
             case "Check Boxes":
                 setCheckBox(divQuestionContent);
+                break;
             case "Unique selection list":
                 setUniqueSelectionList(divQuestionContent);
+                break;
             case "Multiple selection list":
                 setMultipleSelectionList(divQuestionContent);
+                break;
         }
     };
 }
@@ -239,12 +243,16 @@ function addQuestion() {
                 break;
             case "Radio Button":
                 setRadioButton(divQuestionContent);
+                break;
             case "Check Boxes":
                 setCheckBox(divQuestionContent);
+                break;
             case "Unique selection list":
                 setUniqueSelectionList(divQuestionContent);
+                break;
             case "Multiple selection list":
                 setMultipleSelectionList(divQuestionContent);
+                break;
         }
     };
 }
