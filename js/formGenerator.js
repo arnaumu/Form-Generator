@@ -480,10 +480,17 @@ function saveNewForm() {
             //Create div & append to its pertinent div
             var divForms = document.getElementById("forms");
 
-            var form = document.createElement("div");
-            form.setAttribute("id", title);
-            form.setAttribute("class", "invisible");
-            divForms.appendChild(form);
+            var formDiv = document.createElement("div");
+            formDiv.setAttribute("id", title);
+            formDiv.setAttribute("class", "invisible");
+
+            //Creation form
+            var form = document.createElement("form");
+            form.setAttribute("id", "form-" + title);
+            //form.setAttribute("class", "invisible");
+
+            formDiv.appendChild(form);
+            divForms.appendChild(formDiv);
 
             //Set title
             var h2Title = document.createElement("h2");
@@ -514,6 +521,7 @@ function saveNewForm() {
                 var hr = document.createElement("hr");
 
                 form.append(h3QuestionNumber, p, clone, hr);
+                formDiv.appendChild(form);
             }
 
             //Alert
