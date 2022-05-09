@@ -447,9 +447,6 @@ function setMultipleSelectionList(divQuestionContent) {
     }
     divQuestionContent.appendChild(selectList2);
     idMulti++;
-
-
-
 }
 
 function saveNewForm() {
@@ -459,6 +456,7 @@ function saveNewForm() {
     if (!isEmptyOrSpaces(title)) {
         if (checkIfTitleAlreadyExists()) {
             let newRow = tableOfForms.insertRow(-1);
+            newRow.id = "table-" + title;
 
             var cellTitle = newRow.insertCell(0);
             var cellButtons = newRow.insertCell(1);
@@ -562,4 +560,12 @@ function editForm(title) {
 
 function deleteForm(title) {
     console.log("DELETE FORM with title " + title);
+
+    if (confirm("Do you want to delete the form '" + title + "'?")) {
+        document.getElementById(title).remove();
+        document.getElementById("table-" + title).remove();
+    } else {
+        console.log("no");
+    }
+
 }
