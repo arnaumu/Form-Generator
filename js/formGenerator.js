@@ -55,7 +55,7 @@ function setNewFormElements() {
     setButtonAddQuestion()
 
     //Select on change
-    document.getElementById("questionType" + questionNumber).onchange = function(e) {
+    document.getElementById("questionType" + questionNumber).onchange = function (e) {
         switch (this[this.selectedIndex].text) {
             case "Text":
                 setText(divQuestionContent);
@@ -198,7 +198,7 @@ function setButtonAddQuestion() {
 
     var btn = document.createElement("button");
     btn.innerHTML = "Add another question";
-    btn.onclick = function() {
+    btn.onclick = function () {
         addQuestion();
     };
     var hr = document.createElement("hr");
@@ -221,7 +221,7 @@ function addQuestion() {
     divQuestionContent.setAttribute("id", "questionContent" + questionNumber);
     divQuestionNumber.appendChild(divQuestionContent);
 
-    document.getElementById("questionType" + questionNumber).onchange = function(e) {
+    document.getElementById("questionType" + questionNumber).onchange = function (e) {
         switch (this[this.selectedIndex].text) {
             case "Text":
                 setText(divQuestionContent);
@@ -298,7 +298,7 @@ function checkIfDivHasContent(div) {
         while (div.firstChild) {
             div.firstChild.remove()
         }
-    } else {}
+    } else { }
 }
 
 function setText(divQuestionContent) {
@@ -347,7 +347,7 @@ function setRange(divQuestionContent) {
 
     var inputRange = document.createElement("input");
     inputRange.type = "range";
-    inputRange.addEventListener('input', function() { this.nextElementSibling.value = this.value; }, true)
+    inputRange.addEventListener('input', function () { this.nextElementSibling.value = this.value; }, true)
     inputRange.id = "range" + formsNumber + "Id" + idRange;
 
     var numberSelected = document.createElement("output");
@@ -386,9 +386,11 @@ function setRadioButton(divQuestionContent) {
 
     checkIfDivHasContent(divQuestionContent);
 
+
     var inputRadio = document.createElement("input");
     inputRadio.type = "radio";
     inputRadio.id = "radio" + formsNumber + "Id" + idRadio;
+
 
     divQuestionContent.appendChild(inputRadio);
     idRadio++;
@@ -422,7 +424,7 @@ function setUniqueSelectionList(divQuestionContent) {
     for (var i = 0; i < array.length; i++) {
         var option = document.createElement("option");
         option.setAttribute("value", array[i]);
-        option.text = array[i];
+        option.text = array[i].value;
         selectList.appendChild(option);
     }
     divQuestionContent.appendChild(selectList);
@@ -450,7 +452,7 @@ function setMultipleSelectionList(divQuestionContent) {
     for (var i = 0; i < array.length; i++) {
         var option = document.createElement("option");
         option.setAttribute("value", array[i]);
-        option.text = array[i];
+        option.text = array[i].value;
         selectList2.appendChild(option);
     }
     divQuestionContent.appendChild(selectList2);
@@ -472,13 +474,13 @@ function saveNewForm() {
             //Buttons crud
             var btnOpen = document.createElement("button");
             btnOpen.innerHTML = "Open";
-            btnOpen.addEventListener("click", function() { openForm(title) });
+            btnOpen.addEventListener("click", function () { openForm(title) });
             var btnEdit = document.createElement("button");
             btnEdit.innerHTML = "Edit";
-            btnEdit.addEventListener("click", function() { editForm(title) });
+            btnEdit.addEventListener("click", function () { editForm(title) });
             var btnDelete = document.createElement("button");
             btnDelete.innerHTML = "Delete";
-            btnDelete.addEventListener("click", function() { deleteForm(title) });
+            btnDelete.addEventListener("click", function () { deleteForm(title) });
 
             cellTitle.appendChild(document.createTextNode(title));
             cellButtons.append(btnOpen, btnEdit, btnDelete);
@@ -534,7 +536,7 @@ function saveNewForm() {
 
             var buttonSend = document.createElement("button");
             buttonSend.innerHTML = "Send Form";
-            buttonSend.onclick = function() {
+            buttonSend.onclick = function () {
                 alert("SUCCESS ---> You sent your form!\nYour answers in the form '" + title + "' have been successfully sent");
                 cancelFormOpened(title);
             };
@@ -574,7 +576,7 @@ function openForm(title) {
     let btnExit = document.createElement("button");
     btnExit.innerHTML = "Exit Form";
     btnExit.id = "cancelFormOpened";
-    btnExit.onclick = function() {
+    btnExit.onclick = function () {
         cancelFormOpened(title);
     };
     document.getElementById(title).appendChild(btnExit);
