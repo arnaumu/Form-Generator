@@ -524,6 +524,16 @@ function saveNewForm() {
                 formDiv.appendChild(form);
             }
 
+            var buttonSend = document.createElement("button");
+            buttonSend.innerHTML = "Send Form";
+            buttonSend.onclick = function() {
+                alert("SUCCESS ---> You sent your form!\nYour answers in the form '" + title + "' have been successfully sent");
+                cancelFormOpened(title);
+            };
+            var linebreak = document.createElement("br");
+
+            formDiv.append(buttonSend, linebreak);
+
             //Alert
             alert("SUCCESS ---> NEW FORM SAVED!\nThe form '" + title + "' has been successfully saved");
             //Back to main menu
