@@ -22,12 +22,14 @@ function newForm() {
     document.getElementById("tableMenu").classList.toggle("invisible");
     document.getElementById("buttonsNewForm").classList.toggle("invisible");
     document.getElementById("divNewForm").classList.toggle("invisible")
-    document.getElementById("divNewFormButton").classList.toggle("invisible")
+    document.getElementById("divNewFormButton").classList.toggle("invisible");
 
     setNewFormElements();
 }
 
 function setNewFormElements() {
+    questionNumber = 1;
+
     //Dic form number
     var divFormContent = document.createElement("div");
     divFormContent.setAttribute("id", "form" + formsNumber);
@@ -88,7 +90,6 @@ function setTitle(divFormContent) {
 
     if (document.getElementById("titleForm" + formsNumber) || formsNumber == 0) {
         // formsNumber++;
-
         //Title
         var h2Title = document.createElement("h2");
         h2Title.innerHTML = "New Form";
@@ -116,6 +117,7 @@ function setQuestion(divFormContent, divQuestionNumber) {
 
     //Question number
     var h3QuestionNumber = document.createElement("h3");
+    h3QuestionNumber.setAttribute("id", "questionNumber" + questionNumber);
     h3QuestionNumber.innerHTML = "Question number " + questionNumber;
 
     divQuestionNumber.appendChild(h3QuestionNumber);
@@ -184,29 +186,6 @@ function setQuestion(divFormContent, divQuestionNumber) {
     divNewForm.appendChild(divFormContent);
 }
 
-
-// function setHtmlNewQuestionButton() {
-//     // var button = document.createElement('button');
-//     // button.innerHTML = 'click me';
-//     // //button.onclick = setQuestion()
-
-
-//     // document.getElementById("divNewFormButton").innerHTML = button;
-
-//     let btn = document.createElement("button");
-//     btn.innerHTML = "Add question";
-//     btn.onclick = function() {
-//         setQuestion();
-//     };
-//     document.getElementById("divNewFormButton").appendChild(btn);
-// }
-
-/**
- * <form action="javascript:void(0);" onsubmit="addQuestion()">
- * <input type="submit" value="Add Question"></form><br><br>
- */
-
-
 function setButtonAddQuestion() {
     var div = document.getElementById("divNewFormButton");
 
@@ -272,12 +251,14 @@ function cancel() {
     document.getElementById("buttonsNewForm").classList.toggle("invisible");
     document.getElementById("buttonsMenuForm").classList.toggle("invisible");
     document.getElementById("tableMenu").classList.toggle("invisible");
-    document.getElementById("divNewForm").classList.toggle("invisible")
-    document.getElementById("divNewFormButton").classList.toggle("invisible")
+    document.getElementById("divNewForm").classList.toggle("invisible");
+    document.getElementById("divNewFormButton").classList.toggle("invisible");
 
-    var div = document.getElementById("form" + formsNumber)
+    removeChilds(document.getElementById("form" + formsNumber));
+    removeChilds(document.getElementById("divNewFormButton"));
+}
 
-    console.log(div);
+function removeChilds(div) {
     while (div.firstChild) {
         div.removeChild(div.firstChild);
     }
@@ -429,20 +410,108 @@ function saveNewForm() {
 
     if (!isEmptyOrSpaces(title)) {
         if (checkIfTitleAlreadyExists()) {
-            console.log("Titulo guardadao");
-
             let newRow = tableOfForms.insertRow(-1);
 
             var cellTitle = newRow.insertCell(0);
             var cellButtons = newRow.insertCell(1);
 
-            var newText2 = document.createTextNode('new row22');
+            //Buttons crud
+            var btnOpen = document.createElement("button");
+            btnOpen.innerHTML = "Open";
+            btnOpen.addEventListener("click", function() { openForm(title) });
+            var btnEdit = document.createElement("button");
+            btnEdit.innerHTML = "Edit";
+            btnEdit.addEventListener("click", function() { editForm(title) });
+            var btnDelete = document.createElement("button");
+            btnDelete.innerHTML = "Delete";
+            btnDelete.addEventListener("click", function() { deleteForm(title) });
+
             cellTitle.appendChild(document.createTextNode(title));
-            cellButtons.appendChild(newText2);
+            cellButtons.append(btnOpen, btnEdit, btnDelete);
+
+            //Saving elements
+
+            //Create div & append to its pertinent div
+            var divForms = document.getElementById("forms");
+
+            var form = document.createElement("div");
+            form.setAttribute("id", title);
+            form.setAttribute("class", "invisible");
+            divForms.appendChild(form);
+
+            //Set title
+            var h2Title = document.createElement("h2");
+            h2Title.innerHTML = title;
+
+            form.appendChild(h2Title);
+            divForms.appendChild(form);
+
+            //Get divs elements
+            var divForm = document.getElementById('form' + formsNumber);
+            var directChildren = divForm.childNodes.length;
+
+            for (var i = 1; i < directChildren; i++) {
+                var questionNumber = document.getElementById("questionNumber" + i).innerText;
+                var h3QuestionNumber = document.createElement("h3");
+                h3QuestionNumber.innerHTML = questionNumber;
+                h3QuestionNumber.setAttribute("id", title + "-questionNum-" + questionNumber);
+
+                var questionTitle = document.getElementById("questionTitle" + i).value;
+                var p = document.createElement("p");
+                p.innerHTML = questionTitle;
+                p.setAttribute("id", title + "-questionTitle-" + i);
+
+                const questionContent = document.getElementById("questionContent" + i);
+                const clone = questionContent.cloneNode(true);
+                clone.id = title + "-questionContent-" + i;
+
+                var hr = document.createElement("hr");
+
+                form.append(h3QuestionNumber, p, clone, hr);
+            }
+
+            //Alert
+            alert("SUCCESS ---> NEW FORM SAVED!\nThe form '" + title + "' has been successfully saved");
+            //Back to main menu
+            cancel();
         } else {
-            console.log("Titulo YA EXISTE");
+            alert("ERROR ---> DUPLICATED TITLE!\nThis form title already exists.");
         }
     } else {
-        console.log("TContenido introducido en balco");
+        alert("ERROR ---> NOT SAVED!\nEmpty title or blank characters at the beginning.");
     }
+}
+
+function cancelFormOpened(title) {
+    document.getElementById("buttonsMenuForm").classList.toggle("invisible");
+    document.getElementById("tableMenu").classList.toggle("invisible");
+    // document.getElementById("cancelFormOpened").classList.toggle("invisible");
+    document.getElementById(title).classList.toggle("invisible");
+
+    document.getElementById("cancelFormOpened").remove();
+
+}
+
+function openForm(title) {
+    console.log("OPEN FORM with title " + title);
+
+    document.getElementById("buttonsMenuForm").classList.toggle("invisible");
+    document.getElementById("tableMenu").classList.toggle("invisible");
+    document.getElementById(title).classList.toggle("invisible");
+
+    let btnExit = document.createElement("button");
+    btnExit.innerHTML = "Exit Form";
+    btnExit.id = "cancelFormOpened";
+    btnExit.onclick = function() {
+        cancelFormOpened(title);
+    };
+    document.getElementById(title).appendChild(btnExit);
+}
+
+function editForm(title) {
+    console.log("EDIT FORM with title " + title);
+}
+
+function deleteForm(title) {
+    console.log("DELETE FORM with title " + title);
 }
